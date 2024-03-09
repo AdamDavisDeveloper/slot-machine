@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ReactElement } from 'react';
 import ViteLogo from '/public/vite.svg';
 import '/src/styles/slot.scss'
 
@@ -8,28 +8,31 @@ export default function Slot(props: {
     const { machineIsActive } = props;
     const [ slotIsActive, setSlotIsActive ] = useState<boolean>(false);
 
+    // Interfaces
+    interface SlotItem { id: number, imgPath: string };
+
     // Effect Hooks
     useEffect(() => {
         setSlotIsActive(!!machineIsActive);
     }, [machineIsActive]);
 
     useEffect(() => {
-        console.log("Item: ", items[0]);
+        console.log("Item: ", slotItems[0]);
     }, []);
 
 
-    const slotItems = [
+    const slotDefinitions: SlotItem[] = [
         { id: 1, imgPath: ViteLogo },
         { id: 2, imgPath: ViteLogo },
         { id: 3, imgPath: ViteLogo },
     ];
-    const items: any[] = [ 
-        SlotItem(slotItems[0]),
-        SlotItem(slotItems[1]),
-        SlotItem(slotItems[2]),
+    const slotItems: ReactElement[] = [ 
+        SlotItem(slotDefinitions[0]),
+        SlotItem(slotDefinitions[1]),
+        SlotItem(slotDefinitions[2]),
     ];
 
-    function SlotItem(contents: {id: number, imgPath: string}) {
+    function SlotItem(contents: SlotItem): ReactElement {
         return (
             <div className="slot-item">
                 <p>{contents.id}</p>
@@ -41,7 +44,7 @@ export default function Slot(props: {
 
     function slotWheelEngine() {
         while(slotIsActive) {
-            for(let i = 0; i < items.length; i++) {
+            for(let i = 0; i < slotItems.length; i++) {
                 
             }
         }
