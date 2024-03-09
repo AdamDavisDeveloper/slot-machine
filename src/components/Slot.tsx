@@ -1,5 +1,9 @@
 import { useEffect, useState, ReactElement } from 'react';
 import ViteLogo from '/public/vite.svg';
+import HTMLLogo from '/public/html.svg';
+import ReactLogo from '/public/react.svg';
+import NodeLogo from '/public/nodejs.svg';
+import RubyLogo from '/public/ruby.svg';
 import '/src/styles/slot.scss'
 
 export default function Slot(props: {
@@ -16,33 +20,24 @@ export default function Slot(props: {
         setSlotIsActive(!!machineIsActive);
     }, [machineIsActive]);
 
-    useEffect(() => {
-        console.log("Item: ", slotItems[0]);
-    }, []);
 
+    function SlotItem(contents: SlotItem): ReactElement {
+        return <img src={contents.imgPath} alt="slot item icon" />;
+    };
 
     const slotDefinitions: SlotItem[] = [
         { id: 1, imgPath: ViteLogo },
-        { id: 2, imgPath: ViteLogo },
-        { id: 3, imgPath: ViteLogo },
+        { id: 2, imgPath: HTMLLogo },
+        { id: 3, imgPath: ReactLogo },
+        { id: 4, imgPath: NodeLogo },
+        { id: 5, imgPath: RubyLogo },
     ];
-    const slotItems: ReactElement[] = [ 
-        SlotItem(slotDefinitions[0]),
-        SlotItem(slotDefinitions[1]),
-        SlotItem(slotDefinitions[2]),
-    ];
-
-    function SlotItem(contents: SlotItem): ReactElement {
-        return (
-            <div className="slot-item">
-                <p>{contents.id}</p>
-            </div>
-        )
-    };
+    const slotItems: ReactElement[] = slotDefinitions.map(def => SlotItem(def));
 
 
 
-    function slotWheelEngine() {
+
+    function Engine() {
         while(slotIsActive) {
             for(let i = 0; i < slotItems.length; i++) {
                 
@@ -54,7 +49,14 @@ export default function Slot(props: {
 
     return (
         <div className="slot">
-            
+            { slotItems.map((item) => {
+                return (
+                    <div className="slot-item">
+                        { item }
+                    </div>
+                );
+              })
+            }
         </div>
     )
 }
