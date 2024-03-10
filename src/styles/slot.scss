@@ -1,9 +1,13 @@
-.slot {
+.slot-window {
     border: 2px solid white;
     padding: .5rem;
     margin: .35rem;
     height: 6rem;
     overflow: scroll;
+}
+
+.slot {
+    //animation: slideUp 2s linear infinite;
 }
 
 .slot-item {
@@ -12,5 +16,16 @@
         height: 25px;
         margin-bottom: .15rem;
         margin-top: .15rem;
+    }
+}
+
+
+// Animations
+@keyframes slideUp {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-100%); /* This needs to match the height of the original set of items */
     }
 }

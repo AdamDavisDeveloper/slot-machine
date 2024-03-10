@@ -1,9 +1,9 @@
 import { useEffect, useState, ReactElement } from 'react';
-import ViteLogo from '/public/vite.svg';
-import HTMLLogo from '/public/html.svg';
-import ReactLogo from '/public/react.svg';
-import NodeLogo from '/public/nodejs.svg';
-import RubyLogo from '/public/ruby.svg';
+import ViteLogo from '/vite.svg';
+import HTMLLogo from '/html.svg';
+import ReactLogo from '/react.svg';
+import NodeLogo from '/nodejs.svg';
+import RubyLogo from '/ruby.svg';
 import '/src/styles/slot.scss'
 
 export default function Slot(props: {
@@ -21,18 +21,18 @@ export default function Slot(props: {
     }, [machineIsActive]);
 
 
-    function SlotItem(contents: SlotItem): ReactElement {
+    function CreateSlotItem(contents: SlotItem): ReactElement {
         return <img src={contents.imgPath} alt="slot item icon" />;
     };
 
-    const slotDefinitions: SlotItem[] = [
+    const itemDefinitions: SlotItem[] = [
         { id: 1, imgPath: ViteLogo },
         { id: 2, imgPath: HTMLLogo },
         { id: 3, imgPath: ReactLogo },
         { id: 4, imgPath: NodeLogo },
         { id: 5, imgPath: RubyLogo },
     ];
-    const slotItems: ReactElement[] = slotDefinitions.map(def => SlotItem(def));
+    const slotItems: ReactElement[] = itemDefinitions.map(def => CreateSlotItem(def));
 
 
 
@@ -48,15 +48,17 @@ export default function Slot(props: {
     //function stopSlotWheel() { setSlotIsActive(false); }
 
     return (
-        <div className="slot">
-            { slotItems.map((item) => {
-                return (
-                    <div className="slot-item">
-                        { item }
-                    </div>
-                );
-              })
-            }
+        <div className="slot-window">
+            <div className="slot">
+                { slotItems.map((item) => {
+                    return (
+                        <div className="slot-item">
+                            { item }
+                        </div>
+                    );
+                  })
+                }
+            </div>
         </div>
     )
 }
