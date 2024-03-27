@@ -1,19 +1,49 @@
 .slot-window {
-    border: 2px solid white;
-    padding: .5rem;
-    margin: .35rem;
-    height: 6rem;
+    position: relative;
+    border: 2px solid rgb(105, 105, 105);
+    padding: 0.5rem;
+    margin: 0.35rem;
+    height: 16rem;
+    background: #F1F1FD;
     overflow: scroll;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
 }
 
+.slot-window::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: inset 0px -5px 4px rgba(0, 0, 0, 0.5),
+                inset 0px 5px 4px rgba(0, 0, 0, 0.5),
+                inset 0px -8px 6px rgba(0, 0, 0, 0.3),
+                inset 0px 8px 6px rgba(0, 0, 0, 0.3),
+                inset 0px -15px 6px rgba(0, 0, 0, 0.2),
+                inset 0px 15px 6px rgba(0, 0, 0, 0.2),
+                inset 0px -30px 6px rgba(0, 0, 0, 0.15),
+                inset 0px 30px 6px rgba(0, 0, 0, 0.15);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Make sure to include the ::-webkit-scrollbar rule if you're hiding scrollbars */
+.slot-window::-webkit-scrollbar {
+    display: none;
+}
+
+
 .slot {
-    //animation: slideUp 2s linear infinite;
+    position: relative;
+    //animation: slideUp .5s linear infinite;
 }
 
 .slot-item {
     img {
-        width: 25px;
-        height: 25px;
+        width: 11vh;
+        height: 11vh;
         margin-bottom: .15rem;
         margin-top: .15rem;
     }

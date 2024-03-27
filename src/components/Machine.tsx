@@ -20,9 +20,9 @@ export default function Machine(props: any) {
         <div id="Machine">
             <span>{`${wager}`}</span>
             <div id="Slots">
-                <Slot machineIsActive={machineIsActive} />
-                <Slot machineIsActive={machineIsActive} />
-                <Slot machineIsActive={machineIsActive} />
+                <Slot id={1} machineIsActive={machineIsActive} />
+                <Slot id={2} machineIsActive={machineIsActive} />
+                <Slot id={3} machineIsActive={machineIsActive} />
             </div>
             {
                 wager <3 && 

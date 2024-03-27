@@ -1,0 +1,10 @@
+=========== Slot Machine Emulator ===========
+
+~~~~~~~~~~~ Needs Work ~~~~~~~~~~~~
+  Problem:    The logic around the icons array looping seemlessly is slightly broken.
+  Solutions:  Use a library such as `react-transition-group` or `framer-motion`.
+
+~~~~~~~~~~~ Cosmetics ~~~~~~~~~~~~
+  🟢  Slot windows are larger and have inset shadows.
+  🔴  Display for current coin amount.
+  🔴  Display for payout.
