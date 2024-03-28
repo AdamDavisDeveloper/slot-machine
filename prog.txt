@@ -1,11 +1,18 @@
-=========== Slot Machine Emulator ===========
+|*********************************************|
+|=========== Slot Machine Emulator ===========|
+|*********************************************|
 
 ~~~~~~~~~~~ Needs Work ~~~~~~~~~~~~
+  Problem:    
+  Solutions:  
+
+~~~~~~~~~~~ Solved Issues ~~~~~~~~~~~~
   Problem:    The logic around the icons array looping seemlessly is slightly broken.
-  Solutions:  Use a library such as `react-transition-group` or `framer-motion`.
+  Solutions:  Render only three items at once and cycle through the 0, +1, and -1 of the items array.
+
 
 ~~~~~~~~~~~ Cosmetics ~~~~~~~~~~~~
   🟢  Slot windows are larger and have inset shadows.
-  🔴  Crossbars for horizontal and vertical win scenarios.
+  🟢  Crossbars for horizontal and vertical win scenarios.
   🔴  Display for current coin amount.
   🔴  Display for payout.

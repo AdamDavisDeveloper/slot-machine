@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "firebase": "^10.8.1",
+    "framer-motion": "^11.0.22",
+    "gsap": "^3.12.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-transition-group": "^4.4.5",
