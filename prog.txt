@@ -6,5 +6,6 @@
 
 ~~~~~~~~~~~ Cosmetics ~~~~~~~~~~~~
   🟢  Slot windows are larger and have inset shadows.
+  🔴  Crossbars for horizontal and vertical win scenarios.
   🔴  Display for current coin amount.
   🔴  Display for payout.
