@@ -1,21 +1,48 @@
+// ------- Regular Imports ------
 import { useEffect, useState } from "react";
 import Slot from "./Slot";
 import Crossbars from "./Crossbars";
 import '/src/styles/machine.scss'
+// ----------- Images -------------
+import ViteLogo from '/vite.svg';
+import HTMLLogo from '/html.svg';
+import ReactLogo from '/react.svg';
+import NodeLogo from '/nodejs.svg';
+import RubyLogo from '/ruby.svg';
+import HaskellLogo from '/haskell.svg';
+import RustLogo from '/rust.svg';
+import FirebaseLogo from '/firebase.svg';
+import SpinAgain from '/spinagain.svg';
+// ---------------------------------
+// Interfaces
+export interface slotItemPosition   { id: number, positions: {id: number, currentIndex: number}[] };
+export interface SlotItem           { id: number, imgPath: string };
 
-export interface slotItemPosition { id: number, positions: {id: number, currentIndex: number}[] };
+export const itemDefinitions: SlotItem[] = [
+    //id: reference to item type/value -- imgPath: Vite import of image (top of file)
+    { id: 1, imgPath: ViteLogo      },
+    { id: 2, imgPath: HTMLLogo      },
+    { id: 3, imgPath: ReactLogo     },
+    { id: 4, imgPath: NodeLogo      },
+    { id: 5, imgPath: RubyLogo      },
+    { id: 6, imgPath: HaskellLogo   },
+    { id: 7, imgPath: RustLogo      },
+    { id: 8, imgPath: FirebaseLogo  },
+    { id: 9, imgPath: SpinAgain     },
+];
 
 export default function Machine(props: {
     adjustUserCoins: (adjustment: number) => void,
 }) {
+    const { adjustUserCoins } = props;
+
+    // Slot State
     const [ machineIsActive, setMachineIsActive ]   = useState<boolean>(false);
     const [ activeSlotID, setActiveSlotID ]         = useState<number>(0); // Used to determine which slot to stop + when all slots have been stopped
     const [ wager, setWager ]                       = useState<number>(0);
     const [ childStates, setChildStates ]           = useState<any>({});
-
     
-    const { adjustUserCoins } = props;
-    
+    // Effect Hooks
     useEffect(() => {
         if(wager === 1) setMachineIsActive(true);
         console.log(wager, machineIsActive);
@@ -23,61 +50,78 @@ export default function Machine(props: {
 
     useEffect(() => {
         console.log(childStates)
-        if(childStates["3"]) calculateWinnings();
+        if(childStates["3"]) determineMatchingRows();
     }, [childStates]);
 
+
+    // Utility Functions
     function doIndexesMatch(first: number, second: number, third: number): boolean {
         return (first === second && second === third) ? true : false;
     }
 
-    function calculateWinnings() {
+    function determineMatchingRows() {
         const slotOne = childStates["1"], slotTwo = childStates["2"], slotThree = childStates["3"];
 
         if (!slotOne || !slotTwo || !slotThree) {
             console.error("One or more slots have not submitted their positions.");
             return;
         }
-        console.log("Calculating winnings....");
-        console.log(slotOne, slotTwo, slotThree)
+
+        // When a matching row is confirmed, the item ID is pushed here
+        const allMatchingIds: number[] = [];
+
         const machineRows = {
-            center:         doIndexesMatch(slotOne.positions[1].id, slotTwo.positions[1].id, slotThree.positions[1].id),
-            top:            doIndexesMatch(slotOne.positions[0].id, slotTwo.positions[0].id, slotThree.positions[0].id),
-            bottom:         doIndexesMatch(slotOne.positions[2].id, slotTwo.positions[2].id, slotThree.positions[2].id),
-            diagForward:    doIndexesMatch(slotOne.positions[2].id, slotTwo.positions[1].id, slotThree.positions[0].id),
-            diagBackward:   doIndexesMatch(slotOne.positions[0].id, slotTwo.positions[1].id, slotThree.positions[2].id),
+            centerMatch:         doIndexesMatch(slotOne.positions[1].id, slotTwo.positions[1].id, slotThree.positions[1].id),
+            topMatch:            doIndexesMatch(slotOne.positions[0].id, slotTwo.positions[0].id, slotThree.positions[0].id),
+            bottomMatch:         doIndexesMatch(slotOne.positions[2].id, slotTwo.positions[2].id, slotThree.positions[2].id),
+            diagForwardMatch:    doIndexesMatch(slotOne.positions[2].id, slotTwo.positions[1].id, slotThree.positions[0].id),
+            diagBackwardMatch:   doIndexesMatch(slotOne.positions[0].id, slotTwo.positions[1].id, slotThree.positions[2].id),
         };
         console.log("machineRows:", machineRows);
-        console.log("diagBack row:", slotOne.positions[0].id, slotTwo.positions[1].id, slotThree.positions[2].id);
         if(wager === 1) {
-            if(machineRows.center) {
-                console.log("Center win", slotOne.positions[1].id);
+            if(machineRows.centerMatch) {
+                allMatchingIds.push(slotOne.positions[1].id);
             }
-            else console.log("No win :(");
-            
         }
         if(wager === 2) {
-            if(machineRows.center)  console.log("Center win", slotOne.positions[1].id);
-            if(machineRows.top)     console.log("Top win", slotOne.positions[0].id);
-            if(machineRows.bottom)  console.log("Bottom win", slotOne.positions[2].id);
-            else console.log("No win :(");
+            if(machineRows.centerMatch)  allMatchingIds.push(slotOne.positions[1].id);
+            if(machineRows.topMatch)     allMatchingIds.push(slotOne.positions[0].id);
+            if(machineRows.bottomMatch)  allMatchingIds.push(slotOne.positions[2].id);
         }
         if(wager === 3) {
-            if(machineRows.center)          console.log("Center win", slotOne.positions[1].id);
-            if(machineRows.top)             console.log("Top win", slotOne.positions[0].id);
-            if(machineRows.bottom)          console.log("Bottom win", slotOne.positions[2].id);
-            if(machineRows.diagForward)     console.log("DiagFW win", slotOne.positions[2].id);
-            if(machineRows.diagBackward)    console.log("DiagBW win", slotOne.positions[2].id);
-            else console.log("No win :(");
+            if(machineRows.centerMatch)          allMatchingIds.push(slotOne.positions[1].id);
+            if(machineRows.topMatch)             allMatchingIds.push(slotOne.positions[0].id);
+            if(machineRows.bottomMatch)          allMatchingIds.push(slotOne.positions[2].id);
+            if(machineRows.diagForwardMatch)     allMatchingIds.push(slotOne.positions[2].id);
+            if(machineRows.diagBackwardMatch)    allMatchingIds.push(slotOne.positions[2].id);
         }
-        //resetMachine();
+        determinePayout(allMatchingIds);
     };
+
+    function determinePayout(idMatches: number[]): void {
+        let payout: number = 0;
+        for(let match of idMatches) {
+            switch(match) {
+                case 1: payout = payout + 5; break;
+                case 2: payout = payout + 10; break;
+                case 3: payout = payout + 15; break;
+                case 4: payout = payout + 20; break;
+                case 5: payout = payout + 30; break;
+                case 6: payout = payout + 50; break;
+                case 7: payout = payout + 100; break;
+                case 8: payout = payout + 150; break;
+                case 9: payout = payout + 0; break;
+            }
+        }
+        adjustUserCoins(payout);
+        resetMachine();
+    }
     
     function resetMachine(): void {
         setActiveSlotID(0);
         setWager(0);
         setMachineIsActive(false);
         setChildStates({});
-        adjustUserCoins(20); //TODO: this needs to be actual prize amounts and moved elsewhere.
     }
     
     function wagerMaxed(): boolean {
@@ -86,7 +130,7 @@ export default function Machine(props: {
     
     function stopSlot() { setActiveSlotID((id) => id + 1) };
 
-    const receiveChildState = (slotPositions: slotItemPosition) => {
+    const receiveItemPositions = (slotPositions: slotItemPosition) => {
         setChildStates((prevState: any) => ({ ...prevState, [slotPositions.id]: slotPositions }));
     };
 
@@ -95,12 +139,17 @@ export default function Machine(props: {
             <div id="Machine">
                 <span>{`${wager}`}</span>
                 <div id="Slots">
-                    <Slot id={1} machineIsActive={machineIsActive} activeSlotID={activeSlotID} submitSlotPositions={receiveChildState} />
-                    <Slot id={2} machineIsActive={machineIsActive} activeSlotID={activeSlotID} submitSlotPositions={receiveChildState} />
-                    <Slot id={3} machineIsActive={machineIsActive} activeSlotID={activeSlotID} submitSlotPositions={receiveChildState} />
+                    <Slot id={1} machineIsActive={machineIsActive} activeSlotID={activeSlotID} submitItemPositions={receiveItemPositions} />
+                    <Slot id={2} machineIsActive={machineIsActive} activeSlotID={activeSlotID} submitItemPositions={receiveItemPositions} />
+                    <Slot id={3} machineIsActive={machineIsActive} activeSlotID={activeSlotID} submitItemPositions={receiveItemPositions} />
                 </div>
 
-                <button className={`${wagerMaxed() ? 'disabled' : ''}`} onClick={() => setWager((wager) => wager + 1)}>{wagerMaxed() ? 'Max' : 'Wager'}</button>
+                <button 
+                    className={`${wagerMaxed() ? 'disabled' : ''}`} 
+                    onClick={() => {
+                        setWager((wager) => wager + 1)
+                        adjustUserCoins(-1);
+                    }}>{ wagerMaxed() ? 'Max' : 'Wager' }</button>
 
 
                 {/* Crossbars hide behind the slot windows */}

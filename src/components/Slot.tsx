@@ -1,45 +1,23 @@
 import { useEffect, useState, ReactElement } from 'react';
-import ViteLogo from '/vite.svg';
-import HTMLLogo from '/html.svg';
-import ReactLogo from '/react.svg';
-import NodeLogo from '/nodejs.svg';
-import RubyLogo from '/ruby.svg';
-import HaskellLogo from '/haskell.svg';
-import RustLogo from '/rust.svg';
-import FirebaseLogo from '/firebase.svg';
-import SpinAgain from '/spinagain.svg';
-import '/src/styles/slot.scss'
-
+import { SlotItem } from './Machine';
 import { slotItemPosition } from './Machine';
+import { itemDefinitions } from './Machine';
+import '/src/styles/slot.scss'
 
 export default function Slot(props: {
     id: number, // Describes which slot wheel
     machineIsActive: boolean, // Set true when user wagers 1 or more coin
     activeSlotID: number,
-    submitSlotPositions: (data: slotItemPosition) => void,
+    submitItemPositions: (data: slotItemPosition) => void,
 }) {
-    const { id, machineIsActive, activeSlotID, submitSlotPositions } = props;
+    const { id, machineIsActive, activeSlotID, submitItemPositions } = props;
     const [ slotIsActive, setSlotIsActive ] = useState<boolean>(false);
     const [ currentIndex, setCurrentIndex ] = useState<currentIndex>({id: 1, currentIndex: 0});
     const animationSpeed: number = 40 * id; // Each subsequent slot spins slower than the previous.
 
-    const itemDefinitions: SlotItem[] = [
-        //id: reference to item type/value -- imgPath: Vite import of image (top of file)
-        { id: 1, imgPath: ViteLogo      },
-        { id: 2, imgPath: HTMLLogo      },
-        { id: 3, imgPath: ReactLogo     },
-        { id: 4, imgPath: NodeLogo      },
-        { id: 5, imgPath: RubyLogo      },
-        { id: 6, imgPath: HaskellLogo   },
-        { id: 7, imgPath: RustLogo      },
-        { id: 8, imgPath: FirebaseLogo  },
-        { id: 9, imgPath: SpinAgain     },
-    ];
-
     const slotItems: ReactElement[] = itemDefinitions.map(def => CreateSlotItem(def));
 
     // ------------- Interfaces -------------
-    interface SlotItem      { id: number, imgPath: string };
     interface currentIndex  { id: number, currentIndex: number };
 
     // ------------- Effect Hooks -------------
@@ -52,7 +30,7 @@ export default function Slot(props: {
         if(activeSlotID === 0) return;
         if(activeSlotID >= id) {
             const wrappedIndex = (index: number) => (index + itemDefinitions.length) % itemDefinitions.length;
-            submitSlotPositions({
+            submitItemPositions({
                 id: id, 
                 positions: [
                     { id: itemDefinitions[wrappedIndex(currentIndex.currentIndex - 1)].id, currentIndex: currentIndex.currentIndex - 1}, 
