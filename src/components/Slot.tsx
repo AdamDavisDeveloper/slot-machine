@@ -6,7 +6,7 @@ import NodeLogo from '/nodejs.svg';
 import RubyLogo from '/ruby.svg';
 import '/src/styles/slot.scss'
 
-const animationSpeed: number = 100;
+const animationSpeed: number = 500;
 
 export default function Slot(props: {
     id: number, // Describes which slot wheel
@@ -22,6 +22,7 @@ export default function Slot(props: {
         { id: 3, imgPath: ReactLogo },
         { id: 4, imgPath: NodeLogo  },
         { id: 5, imgPath: RubyLogo  },
+        { id: 6, imgPath: HTMLLogo  },
     ];
 
     const slotItems: ReactElement[] = itemDefinitions.map(def => CreateSlotItem(def));
@@ -41,13 +42,17 @@ export default function Slot(props: {
         }, animationSpeed);
         return () => clearTimeout(timer);
     }, [currentIndex, slotIsActive, slotItems.length]);
-
-    // useEffect(() => {
-    //     console.debug("currentIndex - 1", currentIndex - 1);
-    //     console.debug("currentIndex", currentIndex);
-    //     console.debug("currentIndex + 1", currentIndex + 1);
-    // }, [currentIndex]);
     
+
+    function getWrappedIndex(index: number, length: number): number {
+        if (index < 0) {
+            return length - 1;
+        }
+        if (index >= length) {
+            return 0;
+        }
+        return index;
+    };    
 
 
     function CreateSlotItem(definition: SlotItem): ReactElement {
@@ -61,13 +66,13 @@ export default function Slot(props: {
             <div className="slot-window">
                 <div className="slot">
                     <div className="slot-item">
-                        { slotItems[currentIndex - 1] }
+                        { slotItems[getWrappedIndex(currentIndex - 1, slotItems.length)] }
                     </div>
                     <div className="slot-item">
                         { slotItems[currentIndex] }
                     </div>
                     <div className="slot-item">
-                        { slotItems[currentIndex + 1] }
+                        { slotItems[getWrappedIndex(currentIndex + 1, slotItems.length)] }
                     </div>
                 </div>
             </div>
