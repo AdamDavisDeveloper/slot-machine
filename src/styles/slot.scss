@@ -47,13 +47,47 @@
 
 .slot-item {
     img {
-        width: 11vh;
-        height: 11vh;
+        width: 4.75rem; // would love to make this a whole number
+        height: 4.75rem;
         margin-bottom: .15rem;
         margin-top: .15rem;
     }
 }
 
+
+
+@media screen and (max-width: 1114px) {
+    .slot-item {
+        img { width: 4rem; height: 4rem; }
+    }
+    .slot-window { height: 14rem };
+}
+
+@media screen and (max-width: 938px) {
+    .slot-item {
+        img { width: 3rem; height: 3rem; }
+    }
+    .slot-window { height: 11rem };
+}
+
+@media screen and (max-width: 536px) {
+    #Main {
+        padding: 0;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .slot-item {
+        img { width: 2.75rem; height: 2.75rem; }
+    }
+    .slot-window { height: 10rem };
+
+    #Crossbars {
+        width: 75%;
+        .horizontal-2 { transform: translateY(60px) }
+        .horizontal-3 { transform: translateY(-75px) }
+    }
+}
 
 // Animations
 @keyframes slideUp {
