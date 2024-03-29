@@ -70,9 +70,7 @@ export default function Machine(props: {
 
     // Utility Functions
     const addRowNameToSet = (name: string) => {
-        const updatedSet = new Set(matchingSlotRowNames);
-        updatedSet.add(name);
-        setMatchingSlotRowNames(updatedSet);
+        setMatchingSlotRowNames(prev => new Set(prev.add(name)))
     };
 
 
@@ -112,9 +110,9 @@ export default function Machine(props: {
                 if(rows.bottomMatch)  { allMatchingSlots.push(slotOne.positions[2].id); addRowNameToSet('bottom') }
             }; break;
             case 3: {
+                if(rows.bottomMatch)          { allMatchingSlots.push(slotOne.positions[2].id); addRowNameToSet('bottom') }
                 if(rows.centerMatch)          { allMatchingSlots.push(slotOne.positions[1].id); addRowNameToSet('center') }
                 if(rows.topMatch)             { allMatchingSlots.push(slotOne.positions[0].id); addRowNameToSet('top') }
-                if(rows.bottomMatch)          { allMatchingSlots.push(slotOne.positions[2].id); addRowNameToSet('bottom') }
                 if(rows.diagForwardMatch)     { allMatchingSlots.push(slotOne.positions[2].id); addRowNameToSet('diagForward') }
                 if(rows.diagBackwardMatch)    { allMatchingSlots.push(slotOne.positions[2].id); addRowNameToSet('diagBackward') }
             }; break;
