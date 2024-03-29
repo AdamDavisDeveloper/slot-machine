@@ -10,15 +10,16 @@ function App() {
     if(localStorage.getItem("coins")) {
       setUsersCoins(savedCoins);
     }
-  })
+  }, []);
 
   function adjustUserCoins(adjustment: number) {
+    localStorage.setItem("coins", `${usersCoins + adjustment}`);
     setUsersCoins((currentCoins) => currentCoins + adjustment);
   }
 
   return (
     <div id="Main">
-      <h1>Player: Adam</h1>
+      {/* <h1>Player: Adam</h1> */}
       <h2>Coins: {usersCoins}</h2>
       <Machine adjustUserCoins={adjustUserCoins} /> 
     </div>    
