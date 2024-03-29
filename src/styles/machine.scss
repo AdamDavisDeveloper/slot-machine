@@ -38,4 +38,16 @@
     .bar-active {
         filter: brightness(170%);
     }
+    .flashing {
+        animation: 0.09s infinite alternate flash;
+    }
+}
+
+@keyframes flash {
+    from {
+        filter: brightness(100%);
+    }
+    to {
+        filter: brightness(170%);
+    }
 }

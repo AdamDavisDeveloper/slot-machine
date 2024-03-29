@@ -1,6 +1,6 @@
 import { useEffect, useState, ReactElement } from 'react';
 import { SlotItem } from './Machine';
-import { slotItemPosition } from './Machine';
+import { slotItemPositions } from './Machine';
 import { itemDefinitions } from './Machine';
 import '/src/styles/slot.scss'
 
@@ -8,13 +8,14 @@ export default function Slot(props: {
     id: number, // Describes which slot wheel
     machineIsActive: boolean, // Set true when user wagers 1 or more coin
     activeSlotID: number,
-    submitItemPositions: (data: slotItemPosition) => void,
+    submitItemPositions: (data: slotItemPositions) => void,
 }) {
+    // ------------- States -------------
     const { id, machineIsActive, activeSlotID, submitItemPositions } = props;
     const [ slotIsActive, setSlotIsActive ] = useState<boolean>(false);
     const [ currentIndex, setCurrentIndex ] = useState<currentIndex>({id: 1, currentIndex: 0});
-    const animationSpeed: number = 40 * id; // Each subsequent slot spins slower than the previous.
 
+    const animationSpeed: number = 40 * id; // Each subsequent slot spins slower than the previous.
     const slotItems: ReactElement[] = itemDefinitions.map(def => CreateSlotItem(def));
 
     // ------------- Interfaces -------------
