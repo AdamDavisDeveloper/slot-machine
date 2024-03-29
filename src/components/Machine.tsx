@@ -46,8 +46,9 @@ const slotThreeItems = shuffle(itemDefinitions);
 
 export default function Machine(props: {
     adjustUserCoins: (adjustment: number) => void,
+    usersCoins: number,
 }) {
-    const { adjustUserCoins } = props;
+    const { usersCoins, adjustUserCoins } = props;
     
     // Slot State
     const [ machineIsActive, setMachineIsActive ]           = useState<boolean>(false);
@@ -179,18 +180,25 @@ export default function Machine(props: {
                         submitItemPositions={receiveItemPositions} />
                 </div>
 
-                <button 
-                    className={`${wagerMaxed() ? 'disabled' : ''}`} 
-                    onClick={() => {
-                        setWager((wager) => wager + 1);
-                        adjustUserCoins(-1);
-                    }}>{ wagerMaxed() ? 'Max' : 'Wager' }</button>
 
 
                 {/* Crossbars hide behind the slot windows */}
                 <Crossbars wager={wager} matchingSlotRows={matchingSlotRowNames} />
+                <div id="MachineControls">
+                        <button 
+                            className={`${wagerMaxed() ? 'disabled' : ''}`} 
+                            onClick={() => {
+                                if(usersCoins <= 0) {
+                                    window.alert("You've run out of coins!");
+                                    adjustUserCoins(23);
+                                } else {
+                                    setWager((wager) => wager + 1);
+                                    adjustUserCoins(-1);
+                                }
+                            }}>{ wagerMaxed() ? 'Max' : 'Wager' }</button>
+                    <button id="StopButton" className={`${machineIsActive ? '' : 'disabled'}`}  onClick={stopSlot}>Stop</button>
+                </div>
             </div>
-            <button id="StopButton" onClick={stopSlot}>Stop</button>
         </>
     );
 };

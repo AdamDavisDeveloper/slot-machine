@@ -3,7 +3,7 @@ import '/src/styles/App.scss'
 import Machine from './components/Machine'
 
 function App() {
-  const [ usersCoins, setUsersCoins ] = useState<number>(23);
+  const [ usersCoins, setUsersCoins ]   = useState<number>(23);
 
   useEffect(() => {
     const savedCoins: number = parseInt(localStorage.getItem("coins") ?? "0");
@@ -21,7 +21,7 @@ function App() {
     <div id="Main">
       {/* <h1>Player: Adam</h1> */}
       <h2>Coins: {usersCoins}</h2>
-      <Machine adjustUserCoins={adjustUserCoins} /> 
+      <Machine usersCoins={usersCoins} adjustUserCoins={adjustUserCoins} /> 
     </div>    
   )
 }
