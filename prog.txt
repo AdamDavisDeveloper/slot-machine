@@ -3,15 +3,19 @@
 |*********************************************|
 
 ~~~~~~~~~~~ Needs Work ~~~~~~~~~~~~
-  Problem:    Slot items need to be randomized per wheel
-  Solutions:  Make a randomized copy of the slotItems array in Slot.tsx
+  Problem:    
+  Solutions:  
 
 ~~~~~~~~~~~ Solved Issues ~~~~~~~~~~~~
   Problem:    The logic around the icons array looping seemlessly is slightly broken.
   Solutions:  Render only three items at once and cycle through the 0, +1, and -1 of the items array.
+~~~~~~~~~~~~~~~~xoxo~~~~~~~~~~~~~~~~~~
+  Problem:    Slot items need to be randomized per wheel
+  Solutions:  Make a randomized copy of the slotItems array in Slot.tsx
 
 ~~~~~~~~~~~ Cosmetics ~~~~~~~~~~~~
   🟢  Slot windows are larger and have inset shadows.
   🟢  Crossbars for horizontal and vertical win scenarios.
   🟢  Display for current coin amount.
+  🔴  Responsive styling needs major help.
   🔴  Display for payout.

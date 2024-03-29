@@ -1,22 +1,24 @@
 import { useEffect, useState, ReactElement } from 'react';
-import { SlotItem } from './Machine';
-import { slotItemPositions } from './Machine';
-import { itemDefinitions } from './Machine';
+import { 
+    SlotItem,
+    slotItemPositions,
+ } from './Machine';
 import '/src/styles/slot.scss'
 
 export default function Slot(props: {
     id: number, // Describes which slot wheel
     machineIsActive: boolean, // Set true when user wagers 1 or more coin
     activeSlotID: number,
+    slotItemDefinitions: SlotItem[]
     submitItemPositions: (data: slotItemPositions) => void,
 }) {
     // ------------- States -------------
-    const { id, machineIsActive, activeSlotID, submitItemPositions } = props;
+    const { id, slotItemDefinitions, machineIsActive, activeSlotID, submitItemPositions } = props;
     const [ slotIsActive, setSlotIsActive ] = useState<boolean>(false);
     const [ currentIndex, setCurrentIndex ] = useState<currentIndex>({id: 1, currentIndex: 0});
 
     const animationSpeed: number = 40 * id; // Each subsequent slot spins slower than the previous.
-    const slotItems: ReactElement[] = itemDefinitions.map(def => CreateSlotItem(def));
+    const slotItems: ReactElement[] = slotItemDefinitions.map(def => CreateSlotItem(def));
 
     // ------------- Interfaces -------------
     interface currentIndex  { id: number, currentIndex: number };
@@ -30,13 +32,13 @@ export default function Slot(props: {
     useEffect(() => {
         if(activeSlotID === 0) return;
         if(activeSlotID >= id) {
-            const wrappedIndex = (index: number) => (index + itemDefinitions.length) % itemDefinitions.length;
+            const wrappedIndex = (index: number) => (index + slotItemDefinitions.length) % slotItemDefinitions.length;
             submitItemPositions({
                 id: id, 
                 positions: [
-                    { id: itemDefinitions[wrappedIndex(currentIndex.currentIndex - 1)].id, currentIndex: currentIndex.currentIndex - 1}, 
-                    { id: itemDefinitions[wrappedIndex(currentIndex.currentIndex)].id, currentIndex: currentIndex.currentIndex},
-                    { id: itemDefinitions[wrappedIndex(currentIndex.currentIndex + 1)].id, currentIndex: currentIndex.currentIndex + 1},
+                    { id: slotItemDefinitions[wrappedIndex(currentIndex.currentIndex - 1)].id, currentIndex: currentIndex.currentIndex - 1}, 
+                    { id: slotItemDefinitions[wrappedIndex(currentIndex.currentIndex)].id, currentIndex: currentIndex.currentIndex},
+                    { id: slotItemDefinitions[wrappedIndex(currentIndex.currentIndex + 1)].id, currentIndex: currentIndex.currentIndex + 1},
                 ]
             });
         }
@@ -48,7 +50,7 @@ export default function Slot(props: {
         if(!slotIsActive) return;
         const timer = setTimeout(() => {
             setCurrentIndex((prevState: currentIndex) => ({
-                id: itemDefinitions[(prevState.currentIndex + 1) % slotItems.length].id,
+                id: slotItemDefinitions[(prevState.currentIndex + 1) % slotItems.length].id,
                 currentIndex: (prevState.currentIndex + 1) % slotItems.length
             }));
             //setCurrentIndex((curr) => (curr + 1) % slotItems.length);

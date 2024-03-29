@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Slot from "./Slot";
 import Crossbars from "./Crossbars";
+import { shuffle } from "../utils/shuffle";
 import '/src/styles/machine.scss'
 // ----------- Images -------------
 import ViteLogo from '/vite.svg';
@@ -15,7 +16,7 @@ import FirebaseLogo from '/firebase.svg';
 import SpinAgain from '/spinagain.svg';
 // ---------------------------------
 // Interfaces
-export interface slotItemPositions   { id: number, positions: {id: number, currentIndex: number}[] };
+export interface slotItemPositions  { id: number, positions: {id: number, currentIndex: number}[] };
 export interface SlotItem           { id: number, imgPath: string };
 export interface MachineRows {
     centerMatch:        boolean,
@@ -38,18 +39,23 @@ export const itemDefinitions: SlotItem[] = [
     { id: 9, imgPath: SpinAgain     },
 ];
 
+const slotOneItems   = shuffle(itemDefinitions);
+const slotTwoItems   = shuffle(itemDefinitions);
+const slotThreeItems = shuffle(itemDefinitions);
+
+
 export default function Machine(props: {
     adjustUserCoins: (adjustment: number) => void,
 }) {
     const { adjustUserCoins } = props;
-
+    
     // Slot State
     const [ machineIsActive, setMachineIsActive ]           = useState<boolean>(false);
     const [ activeSlotID, setActiveSlotID ]                 = useState<number>(0); // Used to determine which slot to stop + when all slots have been stopped
     const [ wager, setWager ]                               = useState<number>(0);
     const [ childStates, setChildStates ]                   = useState<any>({});
     const [ matchingSlotRowNames, setMatchingSlotRowNames ] = useState<Set<string>>(new Set());
-    
+
     // Effect Hooks
     useEffect(() => {
         if(wager === 1) {
@@ -57,10 +63,6 @@ export default function Machine(props: {
             setMatchingSlotRowNames(new Set()); // reset flashing rows when new round starts
         }
     }, [wager]);
-
-    useEffect(() => {
-        console.log("matchingSlotRowNames:", matchingSlotRowNames);
-    }, [matchingSlotRowNames]);
 
     useEffect(() => {
         const allSlotsHaveBeenStopped = !!(childStates["3"]);
@@ -157,9 +159,24 @@ export default function Machine(props: {
             <div id="Machine">
                 <span>{`Wager: ${wager}`}</span>
                 <div id="Slots">
-                    <Slot id={1} activeSlotID={activeSlotID} machineIsActive={machineIsActive} submitItemPositions={receiveItemPositions} />
-                    <Slot id={2} activeSlotID={activeSlotID} machineIsActive={machineIsActive} submitItemPositions={receiveItemPositions} />
-                    <Slot id={3} activeSlotID={activeSlotID} machineIsActive={machineIsActive} submitItemPositions={receiveItemPositions} />
+                    <Slot 
+                        id={1} 
+                        activeSlotID={activeSlotID} 
+                        machineIsActive={machineIsActive} 
+                        slotItemDefinitions={slotOneItems}
+                        submitItemPositions={receiveItemPositions} />
+                    <Slot 
+                        id={2} 
+                        activeSlotID={activeSlotID}
+                        machineIsActive={machineIsActive} 
+                        slotItemDefinitions={slotTwoItems} 
+                        submitItemPositions={receiveItemPositions} />
+                    <Slot 
+                        id={3} 
+                        activeSlotID={activeSlotID}
+                        machineIsActive={machineIsActive} 
+                        slotItemDefinitions={slotThreeItems} 
+                        submitItemPositions={receiveItemPositions} />
                 </div>
 
                 <button 
