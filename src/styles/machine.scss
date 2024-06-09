@@ -1,5 +1,5 @@
 #Machine {
-    width: 50%;
+    width: 30rem;
     position: relative;
     display: flex;
     justify-content: center;
@@ -13,6 +13,7 @@
 
 #MachineControls {
     display: flex;
+    margin-top: 2rem;
 }
 
 #StopButton { margin-left: 1rem; }
@@ -22,6 +23,7 @@
 #Crossbars {
     position: absolute;
     width: 75%;
+    transform: translateY(-1.25rem);
     z-index: -1000;
     .crossbar {
         width: 100%;
@@ -56,4 +58,12 @@
     to {
         filter: brightness(170%);
     }
+}
+
+@media screen and (max-width: 660px) {
+  #Machine { width: 30rem }
+}
+
+@media screen and (max-width: 425px) {
+  #Machine { width: 27rem }
 }

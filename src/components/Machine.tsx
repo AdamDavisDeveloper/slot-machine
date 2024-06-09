@@ -54,6 +54,7 @@ export default function Machine(props: {
     const [ machineIsActive, setMachineIsActive ]           = useState<boolean>(false);
     const [ activeSlotID, setActiveSlotID ]                 = useState<number>(0); // Used to determine which slot to stop + when all slots have been stopped
     const [ wager, setWager ]                               = useState<number>(0);
+    const [ payout, setPayout ]                             = useState<number>(0);
     const [ childStates, setChildStates ]                   = useState<any>({});
     const [ matchingSlotRowNames, setMatchingSlotRowNames ] = useState<Set<string>>(new Set());
 
@@ -134,6 +135,7 @@ export default function Machine(props: {
                 case 9: payout = payout + 0; break;
             }
         }
+        setPayout(payout);
         adjustUserCoins(payout);
         resetMachine();
     }
@@ -141,6 +143,7 @@ export default function Machine(props: {
     function resetMachine(): void {
         setActiveSlotID(0);
         setWager(0);
+        setPayout(0);
         setMachineIsActive(false);
         setChildStates({});
     }
@@ -155,10 +158,14 @@ export default function Machine(props: {
         setChildStates((prevState: any) => ({ ...prevState, [slotPositions.id]: slotPositions }));
     };
 
+    const MachineStatus = (payout) => {
+        return isInPayoutState ? `Prize: ${payout}` : `Wager: ${wager}`; 
+    }
+
     return (
         <>
             <div id="Machine">
-                <span>{`Wager: ${wager}`}</span>
+                <span>{}</span>
                 <div id="Slots">
                     <Slot 
                         id={1} 
