@@ -15,6 +15,27 @@
 }
 
 
+// Coins and Payout Statuses
+#Status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#CoinsDisplay, #PayoutDisplay {
+  width: 5rem;
+  border: 2px solid white;
+}
+
+#CoinsDisplay   { margin-left: .25rem; }
+#PayoutDisplay  { margin-right:  .25rem; }
+
+.coins-title, .payout-title {
+  border-bottom: 2px solid white;
+  padding: .25rem;
+}
+// -------------------------------------
+
 .logo {
   height: 6em;
   padding: 1.5em;
