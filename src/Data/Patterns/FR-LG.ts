@@ -1,6 +1,7 @@
 import { Def } from "./Definitions";
 import { SlotItem } from "./Definitions";
 
+// -------- Original: Gen. 3 FR/LG Pattern -------- //
 export const SlotPatternOne: SlotItem[] = [
     Def[0], Def[1], Def[3], 
     Def[4], Def[6], Def[5],

@@ -15,7 +15,6 @@ export interface SlotItem {
   imgPath: string;
 }
 
-// Original: Gen. 3 FR/LG Pattern
 export const Def: SlotItem[] = [
   { id: 1, imgPath: ViteLogo },
   { id: 2, imgPath: HaskellLogo },
